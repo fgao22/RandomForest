@@ -45,8 +45,7 @@ public class RestaurantRevenue {
 		rf.buildClassifier(discretizedData);
 		//print out capabilities
 		Evaluation evaluation = new Evaluation(discretizedData);
-		evaluation.crossValidateModel(rf, discretizedData, 10, new Random(1));
-		//evaluation.evaluateModel(rf, discretizedData);
+		evaluation.evaluateModel(rf, discretizedData);
 		System.out.println(evaluation.toSummaryString("Evaluation results:\n", false));
 
 		ArffSaver saver = new ArffSaver();
