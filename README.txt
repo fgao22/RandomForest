@@ -20,11 +20,19 @@ Data Preprocessing:
 	
 	The actual numbers are not important (details later)
 	
-Running the Random Forest classification by command line from weka
+Running the Random Forest or other classification by command line from weka
 	
-	java -cp weka.jar weka.classifiers.misc.InputMappedClassifier -W weka.classifiers.trees.randomForest -t train_final.arff -T test_final.arff -classifications weka.classifiers.evaluation.output.prediction.CSV > submission.csv
+	Random Forest:
+	java -cp weka.jar weka.classifiers.misc.InputMappedClassifier -W weka.classifiers.trees.randomForest -t train_final.arff -T test_final.arff -classifications weka.classifiers.evaluation.output.prediction.CSV > RandomForest_kaggle.csv
 	
-	This command uses weka library to train the random fortest model with the train_final set,
+	M5P:
+	java -cp weka.jar weka.classifiers.misc.InputMappedClassifier -W weka.classifiers.trees.M5P -t train_final.arff -T test_final.arff -classifications weka.classifiers.evaluation.output.prediction.CSV > M5P_kaggle.csv
+	
+	Linear Regression:
+	java -cp weka.jar weka.classifiers.misc.InputMappedClassifier -W weka.classifiers.functions.LinearRegression -t train_final.arff -T test_final.arff -classifications weka.classifiers.evaluation.output.prediction.CSV > LinearRegression_kaggle.csv
+	
+	
+	This command uses weka library to train the random fortest or other model with the train_final set,
 	and make predictions by the information of the test_final set. It will return "submission.csv"
 	that contains an Id, an actual value (which are the random numbers we generated), a predicted value
 	(what we really care about) and the error (not important)
@@ -42,4 +50,16 @@ Data Postprossessing
 	
 	For submission.csv, we got ride of the actual attribute and the error attribute, decrement all
 	IDs by one so that it starts from 0 (Kaggle requirement)
+	
+	By submission, Kaggle gives us the RMSE of our model
 
+Running models using cross validation (10-fold, 1 seed)
+
+Random Forest:
+java -cp weka.jar weka.classifiers.trees.RandomForest -t train_final.arff -classifications weka.classifiers.evaluation.output.prediction.CSV > RandomForest_cv.csv
+
+M5P:
+java -cp weka.jar weka.classifiers.trees.M5P -t train_final.arff -classifications weka.classifiers.evaluation.output.prediction.CSV > M5P_cv.csv
+
+Linear Regression:
+java -cp weka.jar weka.classifiers.functions.LinearRegression -t train_final.arff -classifications weka.classifiers.evaluation.output.prediction.CSV > LinearRegression_cv.csv
